@@ -1,15 +1,46 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Lexical Scoping Assighment for R Programming
+## with Johns Hopkins University
+## Dan Johnson, 2/17/2016
 
-## Write a short comment describing this function
+## Cache the inverse of the matrix
+## 4 Functions:
+## get - returns vector in the main function
+## set - changes the vector stored in the main function
+## setmean
+## getmean
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  inv <- NULL
+  set <- function(y) {
+    x <<- y
+    inv <<- NULL
+  }
+  
+  get <- function() x
+  setinv <- function(inverse) inv <<- inverse
+  getinv <- function() inv
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 
-## Write a short comment describing this function
+
+## Function to compute the inverse of the matrix
+## Check to see if already cached
+## If cached, usually local variable
+## If not cached, create local cache
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  inv <- x$getinv()
+  if(!is.null(inv)) {
+    message("Getting Cached Data")
+    return(inv)
+  }
+  
+  data <- x$get()
+  inv <- solve(data, ...)
+  x$setinv(inv)
+  inv
 }
+
